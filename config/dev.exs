@@ -5,7 +5,7 @@ config :invontic_api, InvonticApi.Repo,
   username: "invontic",
   password: "greeno",
   database: "invontic",
-  hostname: "172.20.208.1",
+  hostname:  System.get_env("WSL_HOST_IP"),
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
