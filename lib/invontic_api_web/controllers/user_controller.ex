@@ -2,6 +2,7 @@ defmodule InvonticApiWeb.UserController do
   use InvonticApiWeb, :controller
 
   alias InvonticApi.Accounts
+  alias InvonticApi.Accounts.User
 
   def index(conn, _params) do
     users = Accounts.list_users()
@@ -11,6 +12,19 @@ defmodule InvonticApiWeb.UserController do
   def show(conn, %{"id" => id}) do
     user = Accounts.get_user(id)
     render(conn, "show.html", user: user)
+  end
+
+  def new(conn, _params) do
+    changeset = Accounts.change_user(%User{})
+    render(conn, "new.html", changeset: changeset)
+  end
+
+  def create(conn, %{"user" => user_params}) do
+    {:ok, user} = Accounts.create_user(user_params)
+
+    conn
+    |> put_flash(:info, "User: ##{user.id} #{user.name} (#{user.username}) was created.")
+    |> redirect(to: Routes.user_path(conn, :index))
   end
 
 end
