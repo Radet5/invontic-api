@@ -1,4 +1,0 @@
-<section class="phx-hero">
-  <h1><%= gettext "Welcome to %{name}!", name: "Invontic" %></h1>
-  <p>Your modular invoice management solution</p>
-</section>
