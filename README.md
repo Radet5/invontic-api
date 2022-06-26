@@ -1,4 +1,3 @@
-Invontic-API
-###
+# Invontic-API
 
-Backend persistence services for the Invontic invoice and inventory management system
+Backend persistence service for the [Invontic](https://github.com/Radet5/invontic-base) invoice and inventory management system
