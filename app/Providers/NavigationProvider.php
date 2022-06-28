@@ -52,6 +52,7 @@ class NavigationProvider extends ServiceProvider
         // define the other links here
         $permissions = [
             Permissions::EDIT_USERS => ['Users' => 'admin.user.index'],
+            Permissions::EDIT_ORGANIZATIONS => ['Organizations' => 'admin.organization.index'],
         ];
 
 
