@@ -4,12 +4,10 @@
       {{ __($user->name) }}
     </h2>
   </x-slot>
-  <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-    <div class=" w-64">
-      <x-form type='user' :edit=true :model=$user action="{{ route('admin.user.update', ['user' => $user->id]) }}" />
-      @can('manageRoles')
-      @endcan
-    </div>
+  <x-content-wrapper>
+    <x-form type='user' :edit=true :model=$user action="{{ route('admin.user.update', ['user' => $user->id]) }}" />
+    @can('manageRoles')
+    @endcan
     @can('deleteUsers')
       <div class=" my-4 w-fit">
         <form method="POST" action="{{ route('admin.user.destroy', ['user' => $user->id]) }}">
@@ -21,5 +19,5 @@
         </form>
       </div>
     @endcan
-  </div>
+  </x-content-wrapper>
 </x-app-layout>

@@ -4,7 +4,7 @@
             {{ __('Create User') }}
         </h2>
   </x-slot>
-  <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+  <x-content-wrapper>
     <x-form type="orgUser" action="{{ route('admin.organization.user.store', ['organization' => $organization->id]) }}" />
-  </div>
+  </x-content-wrapper>
 </x-app-layout>

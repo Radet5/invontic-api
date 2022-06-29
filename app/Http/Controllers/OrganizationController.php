@@ -30,7 +30,11 @@ class OrganizationController extends Controller
      */
     public function create()
     {
-        //
+        if(!Auth::user()->can('createOrganizations')) {
+            return redirect()->back();
+        }
+
+        return view('admin.organization.create');
     }
 
     /**
@@ -41,7 +45,19 @@ class OrganizationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(!Auth::user()->can('createOrganizations')) {
+            return redirect()->back();
+        }
+
+        $this->validate($request, [
+            'name' => 'required|unique:organizations',
+        ]);
+
+        $organization = new Organization;
+        $organization->name = $request->name;
+        $organization->save();
+
+        return redirect()->route('admin.organization.index');
     }
 
     /**

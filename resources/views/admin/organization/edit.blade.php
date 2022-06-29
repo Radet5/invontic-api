@@ -5,14 +5,26 @@
     </h2>
   </x-slot>
 
-  <div class="max-w-7xl flex flex-col gap-4 mx-auto py-6 sm:px-6 lg:px-8">
+  <x-content-wrapper>
     <x-section>
       <x-slot name="header">
         Users
       </x-slot>
       @foreach($organization->users as $user)
         <x-section-link-button href="{{ route('admin.organization.user.edit', ['organization' => $organization->id, 'user' => $user->id]) }}">
-          {{ $user->name }}
+          <div>
+            {{ $user->name }}
+          </div>
+          <div>
+            {{ $user->email }}
+          </div>
+          <div>
+            @foreach ($user->getRoles() as $role)
+              <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-700">
+                {{ $role }}
+              </span>
+            @endforeach
+          </div>
         </x-section-link-button>
       @endforeach
       <x-section-link-button href="{{ route('admin.organization.user.create', ['organization' => $organization->id]) }}">
@@ -32,5 +44,5 @@
         +
       </x-section-link-button>
     </x-section>
-  </div>
+  </x-content-wrapper>
 </x-app-layout>
