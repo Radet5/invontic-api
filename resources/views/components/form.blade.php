@@ -11,6 +11,9 @@ $types = [
     ['name' => 'email', 'label' => 'Email', 'type' => 'email'],
     ['name' => 'password', 'label' => 'Password', 'type' => 'password', 'protect' => true],
   ],
+  'orgSite' => [
+    ['name' => 'name', 'label' => 'First Name', 'type' => 'text'],
+  ],
 ];
 $i = 0;
 $fields = $types[$type];

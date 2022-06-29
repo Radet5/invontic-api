@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Site;
+use App\Models\Organization;
 use Illuminate\Http\Request;
+use Auth;
 
 class SiteController extends Controller
 {
@@ -27,6 +29,15 @@ class SiteController extends Controller
         //
     }
 
+    public function organizationCreate(Organization $organization)
+    {
+        if(!Auth::user()->can('createSites')) {
+            return redirect()->back();
+        }
+
+        return view('admin.organization.site.create', compact('organization'));
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -35,7 +46,25 @@ class SiteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(!Auth::user()->can('createSites')) {
+            return redirect()->back();
+        }
+
+        $site = new Site();
+        $site->name = $request->name;
+        $site->organization_id = $request->organization_id;
+        $site->save();
+        return redirect()->route('admin.organization.edit', $request->organization_id);
+    }
+
+    public function organizationStore(Request $request, Organization $organization)
+    {
+        if(!Auth::user()->can('createSites')) {
+            return redirect()->back();
+        }
+
+        $request->organization_id = $organization->id;
+        return $this->store($request);
     }
 
     /**
@@ -60,6 +89,15 @@ class SiteController extends Controller
         //
     }
 
+    public function organizationEdit(Organization $organization, Site $site)
+    {
+        if(!Auth::user()->can('editOrganizations')) {
+            return redirect()->back();
+        }
+
+        return view('admin.organization.site.edit', compact('organization', 'site'));
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -69,7 +107,22 @@ class SiteController extends Controller
      */
     public function update(Request $request, Site $site)
     {
-        //
+        if(!Auth::user()->can('editOrganizations')) {
+            return redirect()->back();
+        }
+
+        $site->update($request->all());
+        return redirect()->back();
+    }
+
+    public function organizationUpdate(Request $request, Organization $organization, Site $site)
+    {
+        if(!Auth::user()->can('editOrganizations')) {
+            return redirect()->back();
+        }
+
+        $request->organization_id = $organization->id;
+        return $this->update($request, $site);
     }
 
     /**
@@ -80,6 +133,11 @@ class SiteController extends Controller
      */
     public function destroy(Site $site)
     {
-        //
+        if(!Auth::user()->can('deleteSites')) {
+            return redirect()->back();
+        }
+
+        $site->delete();
+        return redirect('admin/dashboard');
     }
 }

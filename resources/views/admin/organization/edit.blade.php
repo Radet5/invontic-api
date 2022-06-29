@@ -28,6 +28,9 @@
           {{ $site->name }}
         </x-section-link-button>
       @endforeach
+      <x-section-link-button href="{{ route('admin.organization.site.create', ['organization' => $organization->id]) }}">
+        +
+      </x-section-link-button>
     </x-section>
   </div>
 </x-app-layout>

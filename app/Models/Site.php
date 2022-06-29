@@ -9,6 +9,11 @@ class Site extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'organization_id',
+    ];
+
     public function organization()
     {
         return $this->belongsTo(Organization::class);

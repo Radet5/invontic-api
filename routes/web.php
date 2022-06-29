@@ -32,6 +32,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::put('/users/{user}/update', [UserController::class, 'update'])->name('admin.user.update');
     Route::delete('/users/{user}/destroy', [UserController::class, 'destroy'])->name('admin.user.destroy');
 
+    Route::delete('/sites/{site}/destroy', [SiteController::class, 'destroy'])->name('admin.site.destroy');
+
     #########################
     ## Organization Routes ##
     #########################
@@ -47,7 +49,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/organizations/{organization}/users/{user}/edit', [UserController::class, 'organizationEdit'])->name('admin.organization.user.edit');
     Route::put('/organizations/{organization}/users/{user}/update', [UserController::class, 'organizationUpdate'])->name('admin.organization.user.update');
 
+    Route::get('/organizations/{organization}/sites/create', [SiteController::class, 'organizationCreate'])->name('admin.organization.site.create');
+    Route::post('/organizations/{organization}/sites/store', [SiteController::class, 'organizationStore'])->name('admin.organization.site.store');
     Route::get('/organizations/{organization}/sites/{site}/edit', [SiteController::class, 'organizationEdit'])->name('admin.organization.site.edit');
+    Route::put('/organizations/{organization}/sites/{site}/update', [SiteController::class, 'organizationUpdate'])->name('admin.organization.site.update');
 });
 
 require __DIR__.'/auth.php';
