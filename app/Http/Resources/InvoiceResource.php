@@ -32,6 +32,7 @@ class InvoiceResource extends JsonResource
             'invoice_type' => InvoiceType::find($this->invoice_type_id)->type,
             'invoice_total' => $invoiceTotal,
             'accounting_date' => $this->accounting_date,
+            'invoice_records' => $this->whenLoaded('invoiceRecords'),
         ];
     }
 }

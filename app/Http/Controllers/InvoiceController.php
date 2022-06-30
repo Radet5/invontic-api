@@ -6,6 +6,7 @@ use App\Models\Invoice;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 use App\Http\Resources\InvoiceCollection;
+use App\Http\Resources\InvoiceResource;
 
 class InvoiceController extends Controller
 {
@@ -43,7 +44,7 @@ class InvoiceController extends Controller
      */
     public function show(invoice $invoice)
     {
-        //
+        return new InvoiceResource($invoice->load('invoiceRecords'));
     }
 
     /**
