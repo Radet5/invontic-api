@@ -18,4 +18,10 @@ class Organization extends Model
     {
         return $this->hasMany(Site::class);
     }
+
+    public function invoices()
+    {
+        $site_ids = $this->sites()->pluck('id');
+        return Invoice::whereIn('site_id', $site_ids)->paginate(10);
+    }
 }

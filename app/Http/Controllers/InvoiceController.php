@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\invoice;
+use App\Models\Invoice;
+use App\Models\Organization;
 use Illuminate\Http\Request;
+use App\Http\Resources\InvoiceCollection;
 
 class InvoiceController extends Controller
 {
@@ -15,6 +17,11 @@ class InvoiceController extends Controller
     public function index()
     {
         //
+    }
+
+    public function organizationIndex(Organization $organization)
+    {
+        return new InvoiceCollection($organization->invoices());
     }
 
     /**
