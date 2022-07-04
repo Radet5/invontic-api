@@ -25,6 +25,11 @@ class InvoiceController extends Controller
         return new InvoiceCollection($organization->invoices());
     }
 
+    public function organizationInvoiceTypes(Organization $organization)
+    {
+        return json_encode($organization->invoiceTypes());
+    }
+
     /**
      * Store a newly created resource in storage.
      *

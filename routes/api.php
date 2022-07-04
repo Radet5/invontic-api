@@ -19,6 +19,7 @@ use App\Http\Controllers\SupplierController;
 Route::get('/organizations/{organization}/invoices', [InvoiceController::class, 'organizationIndex'])->name('api.organization.invoice.index');
 Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])->name('api.invoice.show');
 Route::get('/organizations/{organization}/suppliers', [SupplierController::class, 'organizationIndex'])->name('api.organization.supplier.index');
+Route::get('/organizations/{organization}/invoice-types', [InvoiceController::class, 'organizationInvoiceTypes'])->name('api.organization.invoice-types');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
