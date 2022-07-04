@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\SupplierController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,7 @@ use App\Http\Controllers\InvoiceController;
 
 Route::get('/organizations/{organization}/invoices', [InvoiceController::class, 'organizationIndex'])->name('api.organization.invoice.index');
 Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])->name('api.invoice.show');
+Route::get('/organizations/{organization}/suppliers', [SupplierController::class, 'organizationIndex'])->name('api.organization.supplier.index');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

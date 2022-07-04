@@ -24,4 +24,10 @@ class Organization extends Model
         $site_ids = $this->sites()->pluck('id');
         return Invoice::whereIn('site_id', $site_ids)->paginate(10);
     }
+
+    public function suppliers()
+    {
+       $site_ids = $this->sites()->pluck('id');
+       return Supplier::whereIn('site_id', $site_ids)->get();
+    }
 }
