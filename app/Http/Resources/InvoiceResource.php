@@ -29,7 +29,7 @@ class InvoiceResource extends JsonResource
             'supplier_invoice_id' => $this->supplier_invoice_id,
             'invoice_date' => $this->invoice_date,
             'invoice_type_id' => $this->invoice_type_id,
-            'invoice_type' => InvoiceType::find($this->invoice_type_id)->type,
+            'invoice_type' => InvoiceType::find($this->invoice_type_id)->name,
             'invoice_total' => $invoiceTotal,
             'accounting_date' => $this->accounting_date,
             'invoice_records' => $this->whenLoaded('invoiceRecords'),
