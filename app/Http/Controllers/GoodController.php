@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\good;
+use App\Models\Supplier;
+use App\Models\Organization;
 use Illuminate\Http\Request;
 
 class GoodController extends Controller
@@ -15,6 +17,16 @@ class GoodController extends Controller
     public function index()
     {
         //
+    }
+
+    public function supplierIndex(Supplier $supplier)
+    {
+        return json_encode($supplier->goods()->select('id', 'name', 'supplier_id', 'department', 'item_code', 'tax_rate')->get());
+    }
+
+    public function organizationGoodsDepartments(Organization $organization)
+    {
+        return json_encode($organization->goodsDepartments());
     }
 
     /**

@@ -31,6 +31,12 @@ class Organization extends Model
        return Supplier::whereIn('site_id', $site_ids)->get();
     }
 
+    public function goodsDepartments()
+    {
+        $supplier_ids = $this->suppliers()->pluck('id');
+        return Good::whereIn('supplier_id', $supplier_ids)->select('department')->distinct()->get();
+    }
+
     public function invoiceTypes()
     {
         $site_ids = $this->sites()->pluck('id');

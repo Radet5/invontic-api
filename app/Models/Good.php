@@ -9,9 +9,16 @@ class Good extends Model
 {
     use HasFactory;
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function inventoryCategory()
     {
         return $this->belongsTo(InventoryCategory::class);
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
     }
 
     public function invoiceRecords()
