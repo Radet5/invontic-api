@@ -6,6 +6,8 @@ use App\Models\Supplier;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 
+use Auth;
+
 class SupplierController extends Controller
 {
     /**
@@ -20,6 +22,9 @@ class SupplierController extends Controller
 
     public function organizationIndex(Organization $organization)
     {
+        if (!Auth::user()->organization->id !== $organization->id) {
+            abort(401, 'User is not authorized to view this resource');
+        }
         return json_encode($organization->suppliers());
     }
 

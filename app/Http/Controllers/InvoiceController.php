@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Http\Resources\InvoiceCollection;
 use App\Http\Resources\InvoiceResource;
 
+use Auth;
+
 class InvoiceController extends Controller
 {
     /**
@@ -22,11 +24,17 @@ class InvoiceController extends Controller
 
     public function organizationIndex(Organization $organization)
     {
+        if (!Auth::user()->organization->id !== $organization->id) {
+            abort(401, 'User is not authorized to view this resource');
+        }
         return new InvoiceCollection($organization->invoices());
     }
 
     public function organizationInvoiceTypes(Organization $organization)
     {
+        if (!Auth::user()->organization->id !== $organization->id) {
+            abort(401, 'User is not authorized to view this resource');
+        }
         return json_encode($organization->invoiceTypes());
     }
 
@@ -49,6 +57,9 @@ class InvoiceController extends Controller
      */
     public function show(invoice $invoice)
     {
+        if(!Auth::user()->organization->isResourceOwner($invoice)) {
+            abort(401, 'User is not authorized to view this resource');
+        }
         return new InvoiceResource($invoice->load('invoiceRecords'));
     }
 

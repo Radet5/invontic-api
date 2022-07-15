@@ -7,6 +7,8 @@ use App\Models\Supplier;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 
+use Auth;
+
 class GoodController extends Controller
 {
     /**
@@ -21,11 +23,17 @@ class GoodController extends Controller
 
     public function supplierIndex(Supplier $supplier)
     {
+        if(!Auth::user()->organization->isResourceOwner($supplier)) {
+            abort(401, 'User is not authorized to view this resource');
+        }
         return json_encode($supplier->goods()->select('id', 'name', 'supplier_id', 'department', 'item_code', 'tax_rate')->get());
     }
 
     public function organizationGoodsDepartments(Organization $organization)
     {
+        if (!Auth::user()->organization->id !== $organization->id) {
+            abort(401, 'User is not authorized to view this resource');
+        }
         return json_encode($organization->goodsDepartments());
     }
 

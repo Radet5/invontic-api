@@ -42,4 +42,10 @@ class Organization extends Model
         $site_ids = $this->sites()->pluck('id');
         return InvoiceType::whereIn('site_id', $site_ids)->get();
     }
+
+    public function isResourceOwner($resource)
+    {
+        $site_ids = $this->sites()->pluck('id')->toArray();
+        return $resource->site_id && in_array($resource->site_id, $site_ids);
+    }
 }
