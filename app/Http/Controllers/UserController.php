@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Organization;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
+
 use Auth;
 
 class UserController extends Controller
@@ -130,6 +133,32 @@ class UserController extends Controller
 
         $user->update($request->all());
         return redirect()->back();
+    }
+
+    public function requestToken(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+        if (! $user || ! Hash::check($request->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+        }
+
+        $token = explode('|', $user->createToken($request->device_name)->plainTextToken)[1];
+        return json_encode([
+            'token' => $token,
+            'user' => $user
+        ]);
+    }
+
+    public function createToken(User $user)
+    {
+        if(!Auth::user()->can('editCreateTokens')) {
+            return redirect()->back();
+        }
+
+        $token = $user->createToken('Invontic Desktop');
+        return $token->plainTextToken;
     }
 
     public function organizationUpdate(Request $request, Organization $organization, User $user)

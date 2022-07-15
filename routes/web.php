@@ -31,6 +31,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('admin.user.edit');
     Route::put('/users/{user}/update', [UserController::class, 'update'])->name('admin.user.update');
     Route::delete('/users/{user}/destroy', [UserController::class, 'destroy'])->name('admin.user.destroy');
+    Route::post('/users/{user}/tokens/create', [UserController::class, 'createToken'])->name('admin.user.token.create');
 
     Route::delete('/sites/{site}/destroy', [SiteController::class, 'destroy'])->name('admin.site.destroy');
 
