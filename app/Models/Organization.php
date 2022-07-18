@@ -22,7 +22,8 @@ class Organization extends Model
     public function invoices()
     {
         $site_ids = $this->sites()->pluck('id');
-        return Invoice::whereIn('site_id', $site_ids)->paginate(10);
+        $perPage = request()->per_page ?? 10;
+        return Invoice::whereIn('site_id', $site_ids)->orderBy('invoice_date', 'desc')->orderBy('supplier_id')->orderBy('id')->paginate($perPage);
     }
 
     public function suppliers()

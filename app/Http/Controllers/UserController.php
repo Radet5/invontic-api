@@ -144,7 +144,7 @@ class UserController extends Controller
             ]);
         }
 
-        $token = explode('|', $user->createToken($request->device_name)->plainTextToken)[1];
+        $token = $user->createToken($request->device_name)->plainTextToken;
         return json_encode([
             'token' => $token,
             'user' => $user

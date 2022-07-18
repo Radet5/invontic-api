@@ -9,6 +9,7 @@ use App\Http\Resources\InvoiceCollection;
 use App\Http\Resources\InvoiceResource;
 
 use Auth;
+use Hash;
 
 class InvoiceController extends Controller
 {
@@ -24,7 +25,7 @@ class InvoiceController extends Controller
 
     public function organizationIndex(Organization $organization)
     {
-        if (!Auth::user()->organization->id !== $organization->id) {
+        if (Auth::user()->organization->id !== $organization->id) {
             abort(401, 'User is not authorized to view this resource');
         }
         return new InvoiceCollection($organization->invoices());
