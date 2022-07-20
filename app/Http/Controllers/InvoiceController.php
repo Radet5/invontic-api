@@ -61,7 +61,38 @@ class InvoiceController extends Controller
         if(!Auth::user()->organization->isResourceOwner($invoice)) {
             abort(401, 'User is not authorized to view this resource');
         }
+
+        $tokenId = explode("|", request()->bearerToken())[0];
+        //User can actually checkout more than one so disabling this for now
+        //$lockedInvoices = Invoice::where('locked_by', $tokenId)->get();
+        ////clear the locked invoices
+        //foreach ($lockedInvoices as $lockedInvoice) {
+        //    $lockedInvoice->locked_by = null;
+        //    $lockedInvoice->save();
+        //}
+
+        if ($invoice->locked_by !== null && $invoice->locked_by != $tokenId) {
+            $user = $invoice->lockedByUser();
+            if(!$invoice->isLockExpired()) {
+                abort(401, 'Requested invoice is locked by ' . $user->name . ' (' . $user->email . ')');
+            }
+        }
+        $invoice->locked_by = $tokenId;
+        $invoice->touch();
+        $invoice->save();
+
         return new InvoiceResource($invoice->load('invoiceRecords'));
+    }
+
+    public function clearInvoiceLock(Request $request)
+    {
+        $tokenId = explode("|", $request->bearerToken())[0];
+        $invoices = Invoice::where('locked_by', $tokenId)->get();
+        foreach ($invoices as $invoice) {
+            $invoice->locked_by = null;
+            $invoice->save();
+        }
+        return response()->json(['message' => 'Lock cleared', 'success' => true]);
     }
 
     /**

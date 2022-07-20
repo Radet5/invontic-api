@@ -22,6 +22,7 @@ Route::post('/request-token', [UserController::class, 'requestToken'])->name('re
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/organizations/{organization}/invoices', [InvoiceController::class, 'organizationIndex'])->name('api.organization.invoice.index');
+    Route::put('/clear-invoice-lock', [InvoiceController::class, 'clearInvoiceLock'])->name('api.clear-invoice-lock');
     Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])->name('api.invoice.show');
     Route::get('/organizations/{organization}/suppliers', [SupplierController::class, 'organizationIndex'])->name('api.organization.supplier.index');
     Route::get('/organizations/{organization}/invoice-types', [InvoiceController::class, 'organizationInvoiceTypes'])->name('api.organization.invoice-types');
